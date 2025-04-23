@@ -1,0 +1,35 @@
+name: Build APK (Auto)
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Java & Ant
+      uses: actions/setup-java@v4
+      with:
+        distribution: temurin
+        java-version: '11'
+
+    - name: Install App Inventor CLI
+      run: |
+        git clone https://github.com/ysfchn/NB-CLI.git
+        cd NB-CLI && ./install.sh
+
+    - name: Build APK
+      run: |
+        nbcli build PredictionHelper20Adv.aia output.apk
+
+    - name: Upload APK artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: prediction-helper-2.0-apk
+        path: output.apk
+Add GitHub Actions build workflow

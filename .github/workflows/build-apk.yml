@@ -23,11 +23,17 @@ jobs:
           distribution: temurin
           java-version: '11'
 
+      - name: Checkout NB-CLI
+        uses: actions/checkout@v4
+        with:
+          repository: ysfchn/NB-CLI
+          path: NB-CLI
+
       - name: Install App Inventor CLI
         run: |
-          git clone https://github.com/ysfchn/NB-CLI.git
-          cd NB-CLI && ./install.sh
-
+          cd NB-CLI
+          chmod +x install.sh
+          ./install.sh
       - name: Build APK
         run: |
           nbcli build PredictionHelper20Adv.aia output.apk
